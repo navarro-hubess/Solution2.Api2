@@ -20,10 +20,10 @@ namespace WebApi2.Controllers
         [HttpGet]
         //[Route("calculaJuros/{valorInicial:decimal}/{tempo:int}")]
         [Route("calculaJuros")]
-        public IActionResult CalcularJuros([FromQuery] decimal valorInicial, [FromQuery] int tempo)
+        public async Task<IActionResult> CalcularJurosAsync([FromQuery] decimal valorInicial, [FromQuery] int tempo)
         {
-            var juros = _taxaJurosService.CalcularJuros(valorInicial, tempo);
-            return Ok();
+            var montante = await _taxaJurosService.CalcularMontanteAsync(valorInicial, tempo);
+            return Ok(montante);
         }
 
         [HttpGet]
