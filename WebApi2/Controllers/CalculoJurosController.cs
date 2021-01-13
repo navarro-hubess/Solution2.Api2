@@ -17,8 +17,13 @@ namespace WebApi2.Controllers
             _taxaJurosService = taxaJurosService;
         }
 
+        /// <summary>
+        /// Método para calcular o Montante de um cálculo de Juros Compostos
+        /// </summary>
+        /// <param name="valorInicial">100</param>
+        /// <param name="tempo">5</param>
+        /// <returns>Montante truncado em 2 casas decimais</returns>
         [HttpGet]
-        //[Route("calculaJuros/{valorInicial:decimal}/{tempo:int}")]
         [Route("calculaJuros")]
         public async Task<IActionResult> CalcularJurosAsync([FromQuery] decimal valorInicial, [FromQuery] int tempo)
         {
@@ -26,11 +31,15 @@ namespace WebApi2.Controllers
             return Ok(montante);
         }
 
+        /// <summary>
+        /// Mostra o caminho para os repositórios do GitHub
+        /// </summary>
+        /// <returns>URL para repositórios</returns>
         [HttpGet]
         [Route("showmethecode")]
         public string ShowMeTheCode()
         {
-            return "";
+            return "https://github.com/navarro-hubess/Solution1.Api1";
         }
     }
 }
