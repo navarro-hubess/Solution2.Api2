@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Polly;
+using Polly.Extensions.Http;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -37,9 +39,14 @@ namespace WebApi2
             services.AddSingleton<ITaxaJurosApiConfig>(sp =>
                 sp.GetRequiredService<IOptions<TaxaJurosApiConfig>>().Value);
 
+            //Política de Retry - Resiliência com Polly
+            var retryPolicy = HttpPolicyExtensions.HandleTransientHttpError()
+                .WaitAndRetryAsync(2, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
+
             //Registrar HttpClient
             services.AddHttpClient<ITaxaJurosService, TaxaJurosService>(
-                x => x.BaseAddress = new Uri(Configuration["TaxaJurosApiConfig:BaseUrl"]));
+                x => x.BaseAddress = new Uri(Configuration["TaxaJurosApiConfig:BaseUrl"]))
+                .AddPolicyHandler(retryPolicy);
 
             services.AddSwaggerGen(c =>
             {

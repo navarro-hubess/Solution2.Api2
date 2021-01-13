@@ -32,11 +32,10 @@ namespace Services
 
         public async Task BuscarTaxa()
         {
-            using (var response = await _httpClient.GetAsync($"{_taxaJurosApiConfig.BaseUrl}"))
-            {
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                juros = JsonConvert.DeserializeObject<TaxaJuros>(apiResponse).TaxaDeJuros;
-            }
+            var response = await _httpClient.GetAsync($"{_taxaJurosApiConfig.BaseUrl}");
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            juros = JsonConvert.DeserializeObject<TaxaJuros>(apiResponse).TaxaDeJuros;
+            
             
         }
 
