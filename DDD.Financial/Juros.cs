@@ -2,6 +2,9 @@
 
 namespace DDD.Financial
 {
+    /// <summary>
+    /// POCO para Juros
+    /// </summary>
     public class Juros
     {
         public int Tempo { get; set; }
